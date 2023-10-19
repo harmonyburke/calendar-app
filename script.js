@@ -3,10 +3,27 @@
 // in the html.
 
 
-$(function () {
+
   var save=$(".btn");
   // var for save button
+  var message=$(".description")
+  // var to call the HTML element for the text box
+  
 
+
+save.on("click", function(){
+  // this function runs when the save button is clicked
+  console.log("check save button")
+  localStorage.setItem("message", JSON.stringify(userNote))
+  console.log(userNote)
+
+})
+
+
+function saveMessage(){
+  var userNote=localStorage.getItem("message");
+  
+}
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -44,6 +61,9 @@ $(function () {
     "hour-21"
 
   ]
+  var past=$(".past");
+  var present=$(".present")
+  var future=$(".future")
   for (var i=0; i<hour.length;i++){
     // loops through all of the hours in military time
 
@@ -56,7 +76,7 @@ $(function () {
     }
 
     
-  }
+  
 
   
   
@@ -77,5 +97,5 @@ $(function () {
   $("#currentDay").text(today.format("MMM, DD,YYYY"));
   // this function calls in dayjs and adds the current date to the id "currentDay" with the given format.
   
-});
+};
 
