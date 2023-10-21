@@ -6,27 +6,42 @@
 
   var save=$(".btn");
   // var for save button
-  var message=$(".description")
-  // var to call the HTML element for the text box
-  
-
+ 
+$(document).ready(function() {
+  // this function specifies this all to only run when the HTML is fully loaded and the correct conditions are met. 
 
 save.on("click", function(){
   // this function runs when the save button is clicked
   console.log("check save button")
-  localStorage.setItem("message", JSON.stringify(message))
-  console.log(userNote)
 
-})
+  var clickSave=$(this);
+  // refers to clicked button
+  var timeBlock=clickSave.closest("time-block").attr("id");
+  // searches DOM to find the id of the time block where the save button is being clicked.
+  var textInput=clickSave.siblings(".description").val();
+  // uses ID as a key to save the text input message to local storage
+  var message=$(".description")
+  // refers to HTML element for the text input 
+  localStorage.setItem(timeBlock, textInput);
+  console.log(textInput)
+  // saves the value inside the specified key in local storage (the input on the specified time block)
+  $(".time-block").each(function(){
+    var timeID=$(this).attr("id")
+    // looks for the id value of the time block in whatever element is being currently worked on 
+    var saveMessage=localStorage.getItem(timeBlock);
 
-function saveMessage(){
-  var userNote=JSON.parse(localStorage.getItem("message"));
-  if (userNote===message){
-    message.text($.attr("message"))
-  }
- 
-  
-}
+    if (saveMessage){
+      // checks to see if saveMessage is being retreived from localStorage. If saveMessage does contain a value(user input) it should save the input to the page 
+      $(this).find(".descrpition").val(saveMessage);
+      console.log(saveMessage)
+      message.text(textInput)
+      // this saves the user message to the page, but right now it appends it to all of the decription elements
+    }
+  })
+
+});
+
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -47,31 +62,29 @@ function saveMessage(){
   
   var allHours = [
     // array for all the hour slots
-    "hour-7",
-    "hour-8",
-    "hour-9",
-    "hour-10",
-    "hour-11",
-    "hour-12",
-    "hour-13",
-    "hour-14",
-    "hour-15",
-    "hour-16",
-    "hour-17",
-    "hour-18",
-    "hour-19",
-    "hour-20",
-    "hour-21"
-
+    // "hour-7",
+    // "hour-8",
+    // "hour-9",
+    // "hour-10",
+    // "hour-11",
+    // "hour-12",
+    // "hour-13",
+    // "hour-14",
+    // "hour-15",
+    // "hour-16",
+    // "hour-17",
+    // "hour-18",
+    // "hour-19",
+    // "hour-20",
+    // "hour-21"
+    $(".container")
   ]
-  var hour=0
-  var hourEl=$(".container");
+  var hour=allHours
   
-  var past=$(".past");
-  var present=$(".present")
-  var future=$(".future")
+  
+  
   for (var i=0; i<allHours.length;i++){
-    // loops through all of the hours in military time
+    // loops through all of the hours 
 
     var currentTime=dayjs();
     console.log(currentTime)
@@ -79,16 +92,22 @@ function saveMessage(){
 
     // gets the time of day
 
-    if (hour===currentTime){
-      $(".container").css({ 'background-color': 'orange' });
- 
+    if (hour===currentTime) {
+      $(".hour").eq(i).children().css("background-color", ".present")
+    }else if (hour>currentTime){
+      $(".hour").eq(i).children().css("background-color", ".future")
+    }else if (hour<currentTime){
+      $(".hour").eq(i).children().css("background-color",".past")
+      // checks to see if hour is greater than, less than, or equal to the current time and changes the color based on the answer
 
+    }
+  }
 // The above code will loop through all time-block elements, compare their associated hour with the current time,
 // and change the background color if they match.
 
 
      
-    }
+    
 
     
   
@@ -111,6 +130,5 @@ function saveMessage(){
   var today=dayjs();
   $("#currentDay").text(today.format("MMM, DD,YYYY"));
   // this function calls in dayjs and adds the current date to the id "currentDay" with the given format.
-  
-};
-
+}
+)
