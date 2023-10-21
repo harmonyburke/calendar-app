@@ -14,14 +14,17 @@
 save.on("click", function(){
   // this function runs when the save button is clicked
   console.log("check save button")
-  localStorage.setItem("message", JSON.stringify(userNote))
+  localStorage.setItem("message", JSON.stringify(message))
   console.log(userNote)
 
 })
 
-
 function saveMessage(){
-  var userNote=localStorage.getItem("message");
+  var userNote=JSON.parse(localStorage.getItem("message"));
+  if (userNote===message){
+    message.text($.attr("message"))
+  }
+ 
   
 }
   // TODO: Add a listener for click events on the save button. This code should
@@ -42,7 +45,7 @@ function saveMessage(){
   // current hour in 24-hour time?
   //
   
-  var hour = [
+  var allHours = [
     // array for all the hour slots
     "hour-7",
     "hour-8",
@@ -61,18 +64,30 @@ function saveMessage(){
     "hour-21"
 
   ]
+  var hour=0
+  var hourEl=$(".container");
+  
   var past=$(".past");
   var present=$(".present")
   var future=$(".future")
-  for (var i=0; i<hour.length;i++){
+  for (var i=0; i<allHours.length;i++){
     // loops through all of the hours in military time
 
-    var currentTime=dayjs().format("hh:mm");
+    var currentTime=dayjs();
     console.log(currentTime)
+    $("#time").text(currentTime.format("hh:mm a"));
+
     // gets the time of day
 
     if (hour===currentTime){
-      $(".hour21").attr(".present")
+      $(".container").css({ 'background-color': 'orange' });
+ 
+
+// The above code will loop through all time-block elements, compare their associated hour with the current time,
+// and change the background color if they match.
+
+
+     
     }
 
     
@@ -92,7 +107,7 @@ function saveMessage(){
   
   
   
-  
+  var timeEl=$("#time")
   var today=dayjs();
   $("#currentDay").text(today.format("MMM, DD,YYYY"));
   // this function calls in dayjs and adds the current date to the id "currentDay" with the given format.
