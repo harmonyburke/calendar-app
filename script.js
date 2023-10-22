@@ -9,6 +9,7 @@
  
 $(document).ready(function() {
   // this function specifies this all to only run when the HTML is fully loaded and the correct conditions are met. 
+  // Everything within this function will run on page load 
 
 save.on("click", function(){
   // this function runs when the save button is clicked
@@ -22,19 +23,22 @@ save.on("click", function(){
   // uses ID as a key to save the text input message to local storage
   var message=$(".description")
   // refers to HTML element for the text input 
-  localStorage.setItem(timeBlock, textInput);
+  localStorage.setItem("timeBlock", textInput);
   console.log(textInput)
   // saves the value inside the specified key in local storage (the input on the specified time block)
   $(".time-block").each(function(){
     var timeID=$(this).attr("id")
     // looks for the id value of the time block in whatever element is being currently worked on 
     var saveMessage=localStorage.getItem(timeBlock);
+    var messageEl=$("<li>")
 
     if (saveMessage){
       // checks to see if saveMessage is being retreived from localStorage. If saveMessage does contain a value(user input) it should save the input to the page 
       $(this).find(".descrpition").val(saveMessage);
       console.log(saveMessage)
-      message.text(textInput)
+      // message.text(timeID.textInput)
+      messageEl.addClass("list-group-item").text(textInput);
+      messageEl.appendTo(message);
       // this saves the user message to the page, but right now it appends it to all of the decription elements
     }
   })
@@ -89,15 +93,16 @@ save.on("click", function(){
     var currentTime=dayjs();
     console.log(currentTime)
     $("#time").text(currentTime.format("hh:mm a"));
+    // adds the time to the top of the page
 
     // gets the time of day
 
     if (hour===currentTime) {
-      $(".hour").eq(i).children().css("background-color", ".present")
+      $(".hour").eq(i).toggleClass(".present")
     }else if (hour>currentTime){
-      $(".hour").eq(i).children().css("background-color", ".future")
+      $(".hour").eq(i).toggleClass(".future")
     }else if (hour<currentTime){
-      $(".hour").eq(i).children().css("background-color",".past")
+      $(".hour").eq(i).toggleClass(".past")
       // checks to see if hour is greater than, less than, or equal to the current time and changes the color based on the answer
 
     }
