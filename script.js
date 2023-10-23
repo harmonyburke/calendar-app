@@ -16,11 +16,12 @@ save.on("click", function(){
   // searches DOM to find the id of the time block where the save button is being clicked.
   var textInput=clickSave.siblings(".description").val();
   // uses ID as a key to save the text input message to local storage
-  var message=$(".description")
-  // refers to HTML element for the text input 
+ 
   localStorage.setItem(timeBlock, textInput);
   console.log(textInput)
   // saves the value inside the specified key in local storage (the input on the specified time block)
+});
+
   $(".time-block").each(function(){
     var timeBlock=$(this).attr("id")
     // looks for the id value of the time block in whatever element is being currently worked on 
@@ -29,16 +30,15 @@ save.on("click", function(){
 
     if (saveMessage){
       // checks to see if saveMessage is being retreived from localStorage. If saveMessage does contain a value(user input) it should save the input to the page 
-      $(this).find(".descrpition").val(saveMessage);
+      $(this).find(".description").val(saveMessage);
       console.log(saveMessage)
       // message.text(timeID.textInput)
-      messageEl.addClass("list-group-item").text(textInput);
-      messageEl.appendTo(message);
-      // this saves the user message to the page, but right now it appends it to all of the decription elements
-    }
-  })
 
-});
+    }
+  });
+  // this whole function saves the user input to the webpage
+
+
 
 
   
@@ -87,6 +87,8 @@ save.on("click", function(){
   
   
   
+  var currentTime=dayjs().format("hh:mm a")
+$("#time").text(currentTime)
   var today=dayjs();
   $("#currentDay").text(today.format("MMM, DD,YYYY"));
   // this function calls in dayjs and adds the current date to the id "currentDay" with the given format.
